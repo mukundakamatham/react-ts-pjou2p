@@ -12,9 +12,20 @@ export default function App() {
     'adhitya',
   ]);
   const [relation, setRelation] = React.useState<Array<string>>(['Friend']);
+  const [relationShip, setRelationShip] = React.useState<Array<object>>([]);
+  const handleRelation = (e: object) => {
+    console.log('clicked');
+    setRelationShip([new Set([...relationShip, e])]);
+    console.log([new Set([...relationShip, e])]);
+  };
+
   return (
     <div>
-      <Relation persons={[...persons]} relation={[...relation]} />
+      <Relation
+        persons={[...persons]}
+        relation={[...relation]}
+        handlerelation={handleRelation}
+      />
     </div>
   );
 }

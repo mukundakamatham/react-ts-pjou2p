@@ -3,16 +3,50 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function Relationship({ persons, relation }) {
+export default function Relationship({ persons, relation, handlerelation }) {
   console.log(persons);
-  const [age, setAge] = React.useState('');
+  const [firstPerson, setFirstPerson] = React.useState('');
+  const [secondPerson, setSecondperson] = React.useState('');
+  const [relationShip, setRelationShip] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent, type: any) => {
-    setAge(event.target.value as string);
+    if (type === 'first') {
+      setFirstPerson(event.target.value as string);
+    } else if (type === 'second') {
+      setSecondperson(event.target.value as string);
+    } else {
+      setRelationShip(event.target.value as string);
+    }
   };
+  const handleAdd = () => {
+    console.log('came to check');
+    if (firstPerson.length < 1) {
+      console.log('came to check1');
 
+      setError('select first person');
+    } else if (secondPerson.length < 1) {
+      console.log('came to checkk');
+
+      setError('select second person');
+    } else if (relationShip.length < 1) {
+      console.log('came to checkkk');
+
+      setError('select relation');
+    } else {
+      console.log('came to checking');
+
+      handlerelation({
+        firstPerson: firstPerson,
+        secondPerson: secondPerson,
+        relationShip: relationShip,
+      });
+    }
+  };
   return (
     <div>
       <Box sx={{ minWidth: 120 }}>
@@ -23,9 +57,9 @@ export default function Relationship({ persons, relation }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={firstPerson}
             label="select first person "
-            onChange={(e) => handleChange(e, 'relation')}
+            onChange={(e) => handleChange(e, 'first')}
           >
             {persons.map((e: any) => (
               <MenuItem value={e}>{e}</MenuItem>
@@ -41,9 +75,9 @@ export default function Relationship({ persons, relation }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={secondPerson}
             label="select second person "
-            onChange={(e) => handleChange(e, 'relation')}
+            onChange={(e) => handleChange(e, 'second')}
           >
             {persons?.map((e: any) => (
               <MenuItem value={e}>{e}</MenuItem>
@@ -59,7 +93,7 @@ export default function Relationship({ persons, relation }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={relationShip}
             label="relation "
             onChange={(e) => handleChange(e, 'relation')}
           >
@@ -69,6 +103,15 @@ export default function Relationship({ persons, relation }) {
           </Select>
         </FormControl>
       </Box>
+      <Button
+        variant="outlined"
+        onClick={() => {
+          console.log('clicked');
+          // handleAdd();
+        }}
+      >
+        Add Relationship
+      </Button>
     </div>
   );
 }
